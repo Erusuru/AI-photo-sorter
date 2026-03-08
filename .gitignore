@@ -1,0 +1,14 @@
+# Python junk
+__pycache__/
+*.py[cod]
+venv/
+.env
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Script Output (IMPORTANT - Blocks 1000s of images from uploading)
+Final_Smart_Sort_v5/
+*.db
+_BENCHMARK*.jpg
