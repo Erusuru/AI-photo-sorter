@@ -28,7 +28,7 @@ Sorts thousands of photos in minutes based on **Sharpness**, **Exposure**, and *
 
 ## 🖼️ Project Visuals
 
-<img src="https://via.placeholder.com/800x400?text=Upload+a+Screenshot+of+your+Benchmark+Grid+Here" width="100%" alt="Benchmark Grid Example">
+<img src="benchmark_preview.jpg" width="100%" alt="Benchmark Grid Example">
 
 *Generated 3x3 high-resolution contact sheet for visual verification.*
 
