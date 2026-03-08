@@ -71,30 +71,33 @@ class ImageUtils:
     @staticmethod
     def get_fast_image(filepath):
         """
-        Reads image. For RAW (.RAF), extracts embedded JPEG for speed.
-        Returns CV2 BGR image or None.
+        Reads image. For RAW files, extracts embedded JPEG for speed.
+        Returns CV2 BGR image (numpy array) or None.
         """
         try:
             path_str = str(filepath)
             ext = filepath.suffix.lower()
+            # List of RAW formats that need rawpy
+            raw_exts = {'.raf', '.cr2', '.cr3', '.nef', '.arw', '.dng', '.orf', '.rw2'}
             
-            if ext == '.raf':
+            if ext in raw_exts:
                 with rawpy.imread(path_str) as raw:
                     try:
                         thumb = raw.extract_thumb()
                         if thumb.format == rawpy.ThumbFormat.JPEG:
-                            # Load via PIL then convert to CV2
                             img_pil = Image.open(io.BytesIO(thumb.data))
                             return cv2.cvtColor(np.array(img_pil), cv2.COLOR_RGB2BGR)
+                        else:
+                            # Fallback if no embedded JPEG is found (slower but works)
+                            return cv2.cvtColor(raw.postprocess(), cv2.COLOR_RGB2BGR)
                     except Exception:
                         return None
             else:
                 return cv2.imread(path_str)
         except Exception as e:
-            print(f"\n[!] Error reading {filepath.name}: {e}")
             return None
 
-    @staticmethod
+    @staticmethod   # <--- THIS WAS MISSING IN YOUR VERSION
     def get_tiled_sharpness(img_gray):
         """
         Splits image into 8x8 grid. Returns the maximum sharpness found in any tile.
@@ -196,7 +199,7 @@ class AISorter:
     def __init__(self):
         self.device = '0' if torch.cuda.is_available() else 'cpu'
         self.model = None # Lazy load
-        self.valid_exts = {'.jpg', '.jpeg', '.raf', '.png'}
+        self.valid_exts = {'.jpg', '.jpeg', '.png', '.raf', '.cr2', '.cr3', '.nef', '.arw', '.dng', '.orf', '.rw2'}
         self.animal_classes = {14, 15, 16, 17, 18, 19, 20, 21, 22, 23} # COCO dataset IDs
 
     def load_model(self):
