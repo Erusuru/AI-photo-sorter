@@ -54,7 +54,7 @@ The tool safely supports virtually all major camera formats via `rawpy` extracti
 The script safely moves your processed files into a clean hierarchy without deleting any original files:
 
 ```text
-Final_Smart_Sort_v5/
+Smart_Sort_v1/
 ├── Human/
 │   ├── Sharp_Portrait/      (Keepers)
 │   ├── Artistic_Dark/       (Check manually)
